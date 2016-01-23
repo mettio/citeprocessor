@@ -1,6 +1,6 @@
-syntax: glob
-
 *~
+vendor
+composer.lock
 .DS_Store
 .composer.json.swp
 .idea
