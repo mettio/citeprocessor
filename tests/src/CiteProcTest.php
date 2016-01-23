@@ -62,7 +62,6 @@ class CiteProcTest extends \PHPUnit_Framework_TestCase {
 
                 $actual = preg_replace("!(\s{2,})!"," ",strip_tags($citeProc->render($dataObject->rawdata)));
                 
-                echo $renderedText."\n";
                 $this->assertSame($renderedText, $actual, "Testing $key");
             }
         }
