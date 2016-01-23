@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,8 +15,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Mett\CiteProc;
 
-namespace AcademicPuma\CiteProc;
 use \SimpleXMLElement;
 
 /**
@@ -25,9 +24,8 @@ use \SimpleXMLElement;
  *
  * @author sebastian
  */
-
-class Locale {
-
+class Locale
+{
     protected $locale_xmlstring = NULL;
     protected $style_locale_xmlstring = NULL;
     protected $locale = NULL;

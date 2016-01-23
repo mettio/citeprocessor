@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,16 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_if
  *
  * @author sebastian
  */
-
-class PIf extends RenderingElement {
+class PIf extends RenderingElement
+{
 
     function evaluate($data) {
         $match = (($match = $this->match)) ? $match : 'all';

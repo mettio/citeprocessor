@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,18 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_et_al
  *
  * @author sebastian
  */
-
-
-class EtAl extends Text {
-
+class EtAl extends Text
+{
     function __construct($dom_node = NULL, $citeproc = NULL) {
         $this->var = 'et-al';
         $this->source = 'term';

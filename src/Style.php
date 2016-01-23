@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,16 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_style
  *
  * @author sebastian
  */
-
-class Style extends Element {
+class Style extends Element
+{
 
     function __construct($dom_node = NULL, $citeproc = NULL) {
         if ($dom_node) {

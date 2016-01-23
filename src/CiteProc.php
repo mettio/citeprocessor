@@ -1,5 +1,4 @@
 <?php
-
 /**
  *   CiteProc-PHP
  *
@@ -19,43 +18,57 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+namespace Mett\CiteProc;
 
-namespace AcademicPuma\CiteProc;
 use \DOMDocument;
 
-class CiteProc {
-
-    private static $instance;
+/**
+ * Class CiteProc
+ *
+ * @package Mett\CiteProc
+ */
+class CiteProc
+{
     public $bibliography = null;
     public $citation = null;
     public $style = null;
+    public $mapper = null;
+    public $quash = null;
+
     protected $macros = null;
-    private $info = null;
     protected $locale = null;
     protected $style_locale = null;
-    private $mapper = null;
-    public $quash = null;
+
+    private $info = null;
+
     /**
-     * 
-     * @return citeproc 
+     * Singleton
+     *
+     * @return CiteProc
      */
-    public static function getInstance($xml) {
+    public static function getInstance($xml)
+    {
+        static $instance = null;
 
-        if (self::$instance == null) {
+        if (null == $instance) {
 
-            self::$instance = new CiteProc($xml);
+            $instance = new CiteProc($xml);
         }
 
-        return self::$instance;
+        return $instance;
     }
 
-    function __construct($csl = NULL, $lang = 'en') {
+
+    // why singleton if this is public?!
+    public function __construct($csl = null, $lang = 'en')
+    {
         if ($csl) {
 	        $this->init($csl, $lang);
         }
     }
 
-    function init($csl, $lang) {
+    function init($csl, $lang)
+    {
         // define field values appropriate to your data in the csl_mapper class and un-comment the next line.        
         $this->mapper = new Mapper();
         $this->quash = array();

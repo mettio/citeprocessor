@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,17 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_names
  *
  * @author sebastian
  */
-
-class Names extends Format {
-
+class Names extends Format
+{
     private $substitutes;
 
     function init_formatting() {

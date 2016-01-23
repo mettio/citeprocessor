@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,12 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Mett\CiteProc;
 
-namespace AcademicPuma\CiteProc;
 use \Exception;
 
-class Factory {
-
+/**
+ * Class Factory
+ *
+ * @package Mett\CiteProc
+ */
+class Factory
+{
     public static function create($dom_node, $citeproc = NULL) {
         //$class_name = 'csl_' . str_replace('-', '_', $dom_node->nodeName);
         $className = ucfirst($dom_node->nodeName);
@@ -44,7 +48,7 @@ class Factory {
                 $className = 'P'.$className;
         }
         
-        $className = 'AcademicPuma\\CiteProc\\'.$className;
+        $className = 'Mett\\CiteProc\\'.$className;
         
         if(class_exists($className)) {
             return new $className($dom_node, $citeproc);

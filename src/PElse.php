@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,18 +15,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_else
  *
  * @author sebastian
  */
-
-class PElse extends PIf {
-
-    function evaluate($data = NULL) {
+class PElse extends PIf
+{
+    function evaluate($data = NULL)
+    {
         return TRUE; // the last else always returns TRUE
     }
 

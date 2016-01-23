@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,18 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_date_part
  *
  * @author sebastian
  */
-
-
-class DatePart extends Format {
-
+class DatePart extends Format
+{
     function render($date, $mode = NULL) {
         $text = '';
 

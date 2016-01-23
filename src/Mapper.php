@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,17 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Description of csl_mapper
  *
  * @author sebastian
  */
-
-class Mapper {
-
+class Mapper
+{
     // In the map_field and map_type function below, the array keys hold the "CSL" variable and type names
     // and the array values contain the variable and type names of the incomming data object.  If the naming
     // convention of your incomming data object differs from the CSL standard (http://citationstyles.org/downloads/specification.html#id78)

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Copyright (C) 2015 
  *
@@ -16,16 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-namespace AcademicPuma\CiteProc;
+namespace Mett\CiteProc;
 
 /**
  * Group
  *
  * @author Sebastian Böttger
  */
-class Group extends Format {
-
+class Group extends Format
+{
     function render($data, $mode = NULL) {
         $text = '';
         $text_parts = array();
