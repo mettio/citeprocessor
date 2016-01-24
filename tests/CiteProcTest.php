@@ -74,6 +74,24 @@ class CiteProcTest extends \PHPUnit_Framework_TestCase {
         ], $citeProc->info->contributor[2]);
     }
 
+    /**
+     * @group integration
+     */
+    public function testBasicCitation()
+    {
+        $config   = ['stylePath' => __DIR__ . '/data/styles/'];
+        $csl      = (new ResourceLoader())->loadStyle('apa', $config);
+        $citeProc = new CiteProc($csl, 'en-US');
+
+
+        // test if author from apa is correctly parsed
+        $this->assertEquals([
+            'name'  => 'Richard Karnesky',
+            'email' => 'karnesky+zotero@gmail.com',
+            'uri'   => 'http://arc.nucapt.northwestern.edu/Richard_Karnesky'
+        ], $citeProc->info->contributor[2]);
+    }
+
 
     /**
      * @covers Mett\CiteProcessor\CiteProc::render
