@@ -174,19 +174,6 @@ class CiteProc
             return $this->mapper->map_type($field);
         }
 
-	/**
-	 * @param $name
-	 *
-	 * @return string
-	 * @throws \Exception
-	 */
-    public static function loadStyleSheet($name) {
-	    include_once __DIR__.'/../vendorPath.php';
-
-	    if (!($vendorPath = vendorPath())) {
-		    throw new \Exception('Error: vendor path not found. Use composer to initialize your project');
-	    }
-
-        return file_get_contents($vendorPath.'/academicpuma/styles/'.$name.'.csl');
+        return ($field);
     }
 }
