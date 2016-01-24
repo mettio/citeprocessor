@@ -24,8 +24,8 @@ namespace Mett\CiteProc;
  */
 class Style extends Element
 {
-
-    function __construct($dom_node = NULL, $citeproc = NULL) {
+    function __construct($dom_node = null, $citeproc = null)
+    {
         if ($dom_node) {
             $this->set_attributes($dom_node);
         }

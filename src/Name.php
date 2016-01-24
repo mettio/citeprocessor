@@ -25,9 +25,9 @@ namespace Mett\CiteProc;
 class Name extends Format
 {
     private $name_parts = array();
-    private $attr_init = FALSE;
+    private $attr_init = false;
 
-    function __construct($dom_node, $citeproc = NULL) {
+    public function __construct($dom_node, $citeproc = null) {
 
         $tags = $dom_node->getElementsByTagName('name-part');
         if ($tags) {
@@ -45,25 +45,27 @@ class Name extends Format
         parent::__construct($dom_node, $citeproc);
     }
 
-    function init_formatting() {
+    public function init_formatting()
+    {
         $this->no_op = array();
         $this->format = array();
         $this->base = $this->get_attributes();
         $this->format['base'] = '';
         $this->format['family'] = '';
         $this->format['given'] = '';
-        $this->no_op['base'] = TRUE;
-        $this->no_op['family'] = TRUE;
-        $this->no_op['given'] = TRUE;
+        $this->no_op['base'] = true;
+        $this->no_op['family'] = true;
+        $this->no_op['given'] = true;
 
         if (isset($this->prefix)) {
-            $this->no_op['base'] = FALSE;
+            $this->no_op['base'] = false;
         }
-        if (isset($this->suffix)) {
-            $this->no_op['base'] = FALSE;
-        }
-        $this->init_format($this->base);
 
+        if (isset($this->suffix)) {
+            $this->no_op['base'] = false;
+        }
+
+        $this->init_format($this->base);
 
         if (!empty($this->name_parts)) {
             foreach ($this->name_parts as $name => $formatting) {
@@ -72,7 +74,8 @@ class Name extends Format
         }
     }
 
-    function init_attrs($mode) {
+    public function init_attrs($mode)
+    {
         //   $and = $this->get_attributes('and');
         if (isset($this->citeproc)) {
             $style_attrs = $this->citeproc->style->get_hier_attributes();
@@ -105,10 +108,12 @@ class Name extends Format
         $this->attr_init = $mode;
     }
 
-    function init_format($attribs, $part = 'base') {
+    public function init_format($attribs, $part = 'base')
+    {
         if (!isset($this->{$part})) {
             $this->{$part} = array();
         }
+
         if (isset($attribs['quotes']) && strtolower($attribs['quotes']) == 'true') {
             $this->{$part}['open-quote'] = $this->citeproc->get_locale('term', 'open-quote');
             $this->{$part}['close-quote'] = $this->citeproc->get_locale('term', 'close-quote');
@@ -117,10 +122,13 @@ class Name extends Format
             $this->no_op[$part] = FALSE;
         }
 
-        if (isset($attribs['prefix']))
+        if (isset($attribs['prefix'])) {
             $this->{$part}['prefix'] = $attribs['prefix'];
-        if (isset($attribs['suffix']))
+        }
+
+        if (isset($attribs['suffix'])) {
             $this->{$part}['suffix'] = $attribs['suffix'];
+        }
 
         $this->format[$part] .= (isset($attribs['font-style'])) ? 'font-style: ' . $attribs['font-style'] . ';' : '';
         $this->format[$part] .= (isset($attribs['font-family'])) ? 'font-family: ' . $attribs['font-family'] . ';' : '';
@@ -130,15 +138,16 @@ class Name extends Format
         $this->format[$part] .= (isset($attribs['vertical-align'])) ? 'vertical-align: ' . $attribs['vertical-align'] . ';' : '';
 
         if (isset($attribs['text-case'])) {
-            $this->no_op[$part] = FALSE;
+            $this->no_op[$part] = false;
             $this->{$part}['text-case'] = $attribs['text-case'];
         }
-        if (!empty($this->format[$part]))
-            $this->no_op[$part] = FALSE;
+        if (!empty($this->format[$part])) {
+            $this->no_op[$part] = false;
+        }
     }
 
-    function format($text, $part = 'base') {
-
+    public function format($text, $part = 'base')
+    {
         if (empty($text) || $this->no_op[$part])
             return $text;
         if (isset($this->{$part}['text-case'])) {
@@ -170,12 +179,13 @@ class Name extends Format
         return $prefix . $open_quote . $text . $close_quote . $suffix;
     }
 
-    function render($names, $mode = NULL) {
+    public function render($names, $mode = null)
+    {
         $text = '';
         $authors = array();
         $count = 0;
         $auth_count = 0;
-        $et_al_triggered = FALSE;
+        $et_al_triggered = false;
 
         if (!$this->attr_init || $this->attr_init != $mode)
             $this->init_attrs($mode);
@@ -188,12 +198,16 @@ class Name extends Format
             if (!empty($name->given) && isset($initialize_with)) {
                 $name->given = preg_replace("/([$this->upper])[$this->lower]+/$this->patternModifiers", '\\1', $name->given);
                 $name->given = preg_replace("/(?<=[-$this->upper]) +(?=[-$this->upper])/$this->patternModifiers", "", $name->given);
+
                 if (isset($name->initials)) {
                     $name->initials = $name->given . $name->initials;
                 }
+
                 $name->initials = $name->given;
             }
-            if (isset($name->initials)) {
+
+            if (isset($name->initials))
+            {
                 // within initials, remove any dots:
                 $name->initials = preg_replace("/([$this->upper])\.+/$this->patternModifiers", "\\1", $name->initials);
                 // within initials, remove any spaces *between* initials:
@@ -205,6 +219,7 @@ class Name extends Format
                 if (preg_match("/ $/", $initialize_with)) {// ... the delimiter that separates initials ends with a space
                     // $name->initials = preg_replace("/-(?=[$this->upper])/$this->patternModifiers", " -", $name->initials);
                 }
+
                 // then, separate initials with the specified delimiter:
                 $name->initials = preg_replace("/([$this->upper])(?=[^$this->lower]+|$)/$this->patternModifiers", "\\1$initialize_with", $name->initials);
 
@@ -244,29 +259,36 @@ class Name extends Format
                 }
                 $authors[] = trim($this->format($text));
             }
-            if (isset($this->{'et-al-min'}) && $count >= $this->{'et-al-min'})
+            if (isset($this->{'et-al-min'}) && $count >= $this->{'et-al-min'}) {
+
                 break;
+            }
         }
+
         if (isset($this->{'et-al-min'}) &&
                 $count >= $this->{'et-al-min'} &&
                 isset($this->{'et-al-use-first'}) &&
                 $count >= $this->{'et-al-use-first'} &&
-                count($names) > $this->{'et-al-use-first'}) {
+                count($names) > $this->{'et-al-use-first'})
+        {
             if ($this->{'et-al-use-first'} < $this->{'et-al-min'}) {
                 for ($i = $this->{'et-al-use-first'}; $i < $count; $i++) {
                     unset($authors[$i]);
                 }
             }
+
             if ($this->etal) {
                 $etal = $this->etal->render();
             } else {
                 $etal = $this->citeproc->get_locale('term', 'et-al');
             }
-            $et_al_triggered = TRUE;
+
+            $et_al_triggered = true;
         }
 
         if (!empty($authors) && !$et_al_triggered) {
             $auth_count = count($authors);
+
             if (isset($this->and) && $auth_count > 1) {
                 $authors[$auth_count - 1] = $this->and . ' ' . $authors[$auth_count - 1]; //stick an "and" in front of the last author if "and" is defined
             }
@@ -311,10 +333,12 @@ class Name extends Format
                     }
             }
         }
+
         return $text;
     }
 
-    function get_regex_patterns() {
+    function get_regex_patterns()
+    {
         // Checks if PCRE is compiled with UTF-8 and Unicode support
         if (!@preg_match('/\pL/u', 'a')) {
             // probably a broken PCRE library
@@ -325,7 +349,8 @@ class Name extends Format
         }
     }
 
-    function get_latin1_regex() {
+    function get_latin1_regex()
+    {
         $alnum = "[:alnum:]ÄÅÁÀÂÃÇÉÈÊËÑÖØÓÒÔÕÜÚÙÛÍÌÎÏÆäåáàâãçéèêëñöøóòôõüúùûíìîïæÿß";
         // Matches ISO-8859-1 letters:
         $alpha = "[:alpha:]ÄÅÁÀÂÃÇÉÈÊËÑÖØÓÒÔÕÜÚÙÛÍÌÎÏÆäåáàâãçéèêëñöøóòôõüúùûíìîïæÿß";
@@ -357,7 +382,8 @@ class Name extends Format
             $print, $punct, $space, $upper, $word, $patternModifiers);
     }
 
-    function get_utf8_regex() {
+    function get_utf8_regex()
+    {
         // Matches Unicode letters & digits:
         $alnum = "\p{Ll}\p{Lu}\p{Lt}\p{Lo}\p{Nd}"; // Unicode-aware equivalent of "[:alnum:]"
         // Matches Unicode letters:
@@ -388,5 +414,4 @@ class Name extends Format
         return array($alnum, $alpha, $cntrl, $dash, $digit, $graph, $lower,
             $print, $punct, $space, $upper, $word, $patternModifiers);
     }
-
 }

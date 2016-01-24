@@ -18,25 +18,31 @@
 namespace Mett\CiteProc;
 
 /**
- * Description of csl_collection
+ * Class Collection
  *
  * @author sebastian
+ *
+ * @package Mett\CiteProc
  */
 class Collection
 {
-    protected $elements = array();
+    protected $elements = [];
 
-    function addElement($elem) {
-        if (isset($elem))
+
+    public function addElement($elem)
+    {
+        if (isset($elem)) {
             $this->elements[] = $elem;
+        }
     }
 
-    function render($data, $mode = NULL) {
+    public function render($data, $mode = null)
+    {
         
     }
 
-    function format($text) {
+    public function format($text)
+    {
         return $text;
     }
-
 }

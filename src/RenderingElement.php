@@ -24,10 +24,12 @@ namespace Mett\CiteProc;
  */
 class RenderingElement extends Element
 {
-    function render($data, $mode = NULL) {
+    function render($data, $mode = null)
+    {
         $text_parts = array();
 
         $delim = $this->delimiter;
+
         foreach ($this->elements as $element) {
             $text_parts[] = $element->render($data, $mode);
         }
@@ -35,6 +37,5 @@ class RenderingElement extends Element
 
         return $this->format($text);
     }
-
 }
 

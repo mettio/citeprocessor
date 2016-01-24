@@ -24,9 +24,8 @@ namespace Mett\CiteProc;
  */
 class PElse extends PIf
 {
-    function evaluate($data = NULL)
+    function evaluate($data = null)
     {
-        return TRUE; // the last else always returns TRUE
+        return true; // the last else always returns TRUE
     }
-
 }
