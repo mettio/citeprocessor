@@ -29,17 +29,19 @@ use \DOMDocument;
  */
 class CiteProc
 {
+    public $mapper       = null;
+    public $citation     = null;
     public $bibliography = null;
-    public $citation = null;
-    public $style = null;
-    public $mapper = null;
-    public $quash = null;
 
-    protected $macros = null;
-    protected $locale = null;
-    protected $style_locale = null;
+    public $style        = null;
+    public $quash        = null;
 
-    private $info = null;
+    public $macros       = null;
+    public $locale       = null;
+    public $style_locale = null;
+
+    public $info         = null;
+
 
     /**
      * Singleton
@@ -59,7 +61,6 @@ class CiteProc
     }
 
 
-    // why singleton if this is public?!
     public function __construct($csl = null, $lang = 'en')
     {
         if ($csl) {
@@ -67,52 +68,71 @@ class CiteProc
         }
     }
 
-    function init($csl, $lang)
+    public function init($csl, $lang)
     {
-        // define field values appropriate to your data in the csl_mapper class and un-comment the next line.        
+        // define field values appropriate to your data in the csl_mapper class and un-comment the next line.
         $this->mapper = new Mapper();
-        $this->quash = array();
+        $this->quash  = array();
 
         $csl_doc = new DOMDocument();
 
-        if ($csl_doc->loadXML($csl)) {
+        // create DOM tree
+        if (!$csl_doc->loadXML($csl)) {
 
-            $style_nodes = $csl_doc->getElementsByTagName('style');
-            if ($style_nodes) {
-                foreach ($style_nodes as $style) {
-                    $this->style = new Style($style);
-                }
+            return;
+        }
+
+        // init style instance
+        $style_nodes = $csl_doc->getElementsByTagName('style');
+
+        if ($style_nodes) {
+            foreach ($style_nodes as $style) {
+                $this->style = new Style($style);
             }
+        }
 
-            $info_nodes = $csl_doc->getElementsByTagName('info');
-            if ($info_nodes) {
-                foreach ($info_nodes as $info) {
-                    $this->info = new Info($info);
-                }
+        // init info instance
+        $info_nodes = $csl_doc->getElementsByTagName('info');
+        if ($info_nodes) {
+            foreach ($info_nodes as $info) {
+                $this->info = new Info($info);
             }
+        }
 
-            $this->locale = new Locale($lang);
-            $this->locale->set_style_locale($csl_doc);
+        // init locale instance
+        $this->locale = new Locale($lang);
+        $this->locale->set_style_locale($csl_doc);
 
 
-            $macro_nodes = $csl_doc->getElementsByTagName('macro');
-            if ($macro_nodes) {
-                $this->macros = new Macros($macro_nodes, $this);
-            }
+        // init macros instance
+        $macro_nodes = $csl_doc->getElementsByTagName('macro');
+        if ($macro_nodes) {
+            $this->macros = new Macros($macro_nodes, $this);
+        }
 
-            $citation_nodes = $csl_doc->getElementsByTagName('citation');
-            foreach ($citation_nodes as $citation) {
-                $this->citation = new Citation($citation, $this);
-            }
+        // init citation instance
+        $citation_nodes = $csl_doc->getElementsByTagName('citation');
+        foreach ($citation_nodes as $citation) {
+            $this->citation = new Citation($citation, $this);
+        }
 
-            $bibliography_nodes = $csl_doc->getElementsByTagName('bibliography');
-            foreach ($bibliography_nodes as $bibliography) {
-                $this->bibliography = new Bibliography($bibliography, $this);
-            }
+        // init bibliography instance
+        $bibliography_nodes = $csl_doc->getElementsByTagName('bibliography');
+        foreach ($bibliography_nodes as $bibliography) {
+            $this->bibliography = new Bibliography($bibliography, $this);
         }
     }
 
-    function render($data, $mode = NULL) {
+    /**
+     * Renders a citation or bibliography dependend on $mode in html.
+     *
+     * @param      $data    Sometimes more documentation is better that less.
+     * @param null $mode    Either "citation" or "bibliography". Defaults to "bibliography"
+     *
+     * @return string
+     */
+    function render($data, $mode = null)
+    {
         $text = '';
         switch ($mode) {
             case 'citation':
@@ -123,30 +143,36 @@ class CiteProc
                 $text .= (isset($this->bibliography)) ? $this->bibliography->render($data) : '';
                 break;
         }
+
         return $text;
     }
 
-    function render_macro($name, $data, $mode) {
+    function render_macro($name, $data, $mode)
+    {
         return $this->macros->render_macro($name, $data, $mode);
     }
 
-    function get_locale($type, $arg1, $arg2 = NULL, $arg3 = NULL) {
+    function get_locale($type, $arg1, $arg2 = null, $arg3 = null)
+    {
         return $this->locale->get_locale($type, $arg1, $arg2, $arg3);
     }
 
-    function map_field($field) {
+    function map_field($field)
+    {
         if ($this->mapper) {
+
             return $this->mapper->map_field($field);
         }
+
         return ($field);
     }
 
-    function map_type($field) {
+    function map_type($field)
+    {
         if ($this->mapper) {
+
             return $this->mapper->map_type($field);
         }
-        return ($field);
-    }
 
 	/**
 	 * @param $name
