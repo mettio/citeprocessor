@@ -97,17 +97,36 @@ class CiteProcTest extends \PHPUnit_Framework_TestCase {
      * @covers Mett\CiteProcessor\CiteProc::render
      * @group integration
      *
-     * @todo   Implement testRender().
      */
-    public function testRender()
+    public function testRenderBibliography()
     {
         foreach($this->publications as $key => $dataObject) {
-            foreach($dataObject->rendereddata as $styleName => $renderedText) {
+            foreach($dataObject->renderedBibliography as $styleName => $renderedText) {
                 $config   = ['stylePath' => __DIR__ . '/data/styles/'];
                 $csl      = (new ResourceLoader())->loadStyle($styleName, $config);
                 $lang     = substr($this->publications->{$key}->locales, 0, 2);
                 $citeProc = new CiteProc($csl, $lang);
-                $actual   = preg_replace("!(\s{2,})!", " ", strip_tags($citeProc->render($dataObject->rawdata)));
+                $actual   = preg_replace("!(\s{2,})!", " ", strip_tags($citeProc->render($dataObject->rawdata, 'bibliography')));
+
+                $this->assertSame($renderedText, $actual, "Testing $key");
+            }
+        }
+    }
+
+    /**
+     * @covers Mett\CiteProcessor\CiteProc::render
+     * @group integration
+     *
+     */
+    public function testRenderCitation()
+    {
+        foreach($this->publications as $key => $dataObject) {
+            foreach($dataObject->renderedCitation as $styleName => $renderedText) {
+                $config   = ['stylePath' => __DIR__ . '/data/styles/'];
+                $csl      = (new ResourceLoader())->loadStyle($styleName, $config);
+                $lang     = substr($this->publications->{$key}->locales, 0, 2);
+                $citeProc = new CiteProc($csl, $lang);
+                $actual   = preg_replace("!(\s{2,})!", " ", strip_tags($citeProc->render($dataObject->rawdata, 'citation')));
 
                 $this->assertSame($renderedText, $actual, "Testing $key");
             }
