@@ -1,4 +1,4 @@
-# citeprocessor #
+# CiteProcessor #
 [![Build Status](https://travis-ci.org/mettio/citeprocessor.svg?branch=master)](https://travis-ci.org/mettio/citeprocessor)
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square)](https://bitbucket.org/bibsonomy/citeproc-php/raw/default/license.txt)
 [![PHP](https://img.shields.io/badge/PHP-%3E=5.4-green.svg?style=flat-square)](http://docs.php.net/manual/en/migration53.new-features.php)
@@ -62,3 +62,10 @@ echo $citeProc->render(json_decode($data));
 ## How to run the tests ##
 
 Run phpunit in the project root and you will be fine.
+
+## ToDo ##
+- Refactor code
+- Document code
+- Testing
+- Document properties
+- Implement some missing features
