@@ -1,6 +1,6 @@
 # citeprocessor #
 [![License](https://img.shields.io/badge/license-GPLv3-blue.svg?style=flat-square)](https://bitbucket.org/bibsonomy/citeproc-php/raw/default/license.txt)
-[![PHP](https://img.shields.io/badge/PHP-%3E=5.3-green.svg?style=flat-square)](http://docs.php.net/manual/en/migration53.new-features.php)
+[![PHP](https://img.shields.io/badge/PHP-%3E=5.4-green.svg?style=flat-square)](http://docs.php.net/manual/en/migration53.new-features.php)
 
 **Description**
 
